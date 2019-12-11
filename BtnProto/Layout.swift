@@ -10,7 +10,7 @@ import Foundation
 
 
 enum BtnType: Int {
-    case none = 0
+    case empty = 0
     case plain = 1
 }
 
@@ -23,11 +23,9 @@ class LNode {
         self.isPressed = isPressed
     }
     
-    init?(type: Float) {
+    init(type: Float) {
         let num = Int(type)
-        guard let btnType = BtnType(rawValue: num) else {
-            return nil
-        }
+        let btnType = BtnType(rawValue: num) ?? .empty
         self.type = btnType
         self.isPressed = (type - Float(num)) > 0
     }
