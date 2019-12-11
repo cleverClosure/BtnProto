@@ -4,7 +4,7 @@
 target 'BtnProto' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
+  #pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
   # Pods for BtnProto
 
 end
