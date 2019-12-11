@@ -10,22 +10,23 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-    
-    lazy var printer = LayoutPrinter(scene: self)
+    let grid = Grid()
     
     override func didMove(to view: SKView) {
-        drawLevel()
+        setGrid()
     }
     
-    func drawLevel() {
-        let level = Layout()
-        level.data = [
+    func setGrid() {
+        let levelData = [
             [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
             [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
             [LNode(type: 1), LNode(type: 1), LNode(type: 1)]
         ]
-        printer.level = level
-        printer.print()
+        grid.setData(levelData)
+        grid.reloadData()
+        grid.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        grid.delegate = self
+        self.addChild(grid)
     }
 
     
@@ -41,5 +42,22 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         
+    }
+    
+    func levelComplete() {
+        self.backgroundColor = .lightGray
+        let ac = SKAction.colorize(with: UIColor.lightGray, colorBlendFactor: 1, duration: 2)
+        self.run(ac)
+    }
+}
+
+extension GameScene: GridDelegate {
+    func gridBtnDidPress(_ grid: Grid, btn: Btn, pos: LevelPosition) {
+        let behavior = BehaviorFactory.getBehaviour(btn.type, pos: pos)
+        grid.performBehavior(behavior)
+        grid.level.printLayout()
+        if self.grid.level.isCompleted {
+            levelComplete()
+        }
     }
 }

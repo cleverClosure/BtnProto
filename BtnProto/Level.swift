@@ -11,7 +11,7 @@ import Foundation
 
 enum BtnType: Int {
     case empty = 0
-    case plain = 1
+    case std = 1
 }
 
 class LNode {
@@ -31,12 +31,16 @@ class LNode {
     }
 }
 
-class Layout {
+class Level {
     
     var data: [[LNode]] = []
     
     var height: Int {
         return data.count
+    }
+    
+    var isCompleted: Bool {
+        return isLevelCompleted()
     }
     
     var width: Int {
@@ -45,5 +49,29 @@ class Layout {
             maxRow = max(row.count, maxRow)
         }
         return maxRow
+    }
+    
+    private func isLevelCompleted() -> Bool {
+        for row in data {
+            for item in row {
+                if !item.isPressed {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
+    func printLayout() {
+        var str = "[\n"
+        for row in data {
+            str += "["
+            for item in row {
+                str += item.isPressed ? "+" : "-"
+            }
+            str += "]\n"
+        }
+        str += "]"
+        print(str)
     }
 }

@@ -7,9 +7,6 @@
 //
 
 import SpriteKit
-import ChameleonFramework
-
-
 
 enum Color {
     case blue
@@ -29,22 +26,65 @@ enum Color {
     }
 }
 
+struct LevelPosition {
+    let row: Int
+    let col: Int
+    init(_ row: Int, _ col: Int) {
+        self.row = row
+        self.col = col
+    }
+}
 
-class BtnNode: SKShapeNode {
-    
+protocol BtnDelegate {
+    func btnDidPress(_ btn: Btn, levelPos: LevelPosition, isPressed: Bool)
+}
+
+
+protocol Btn: SKShapeNode {
+    var levelPos: LevelPosition { get set }
+    var isPressed: Bool { get set }
+    var delegate: BtnDelegate? { get set }
+    var type: BtnType { get }
+    func attemptToggle()
+}
+
+extension Btn {
+    func attemptToggle() {}
+}
+
+class EmptyBtn: SKShapeNode, Btn {
+    var levelPos = LevelPosition(0, 0)
+    var isPressed: Bool = false
+    var delegate: BtnDelegate?
+    var type: BtnType {
+        return .empty
+    }
+}
+
+
+
+class StdBtn: SKShapeNode, Btn {
+
+    var levelPos = LevelPosition(0, 0)
     var innerSquare: SKShapeNode!
     var bgPart: SKShapeNode!
     var bottomPart: SKShapeNode!
     var isPressed: Bool = false
+    var delegate: BtnDelegate?
+    
     private let down = SKAction.moveBy(x: 0, y: -3, duration: 0.1)
     private let unHide = SKAction.fadeIn(withDuration: 0.1)
     private let up = SKAction.moveBy(x: 0, y: 3, duration: 0.1)
     private let hide = SKAction.fadeOut(withDuration: 0.1)
+    var type: BtnType {
+        return .std
+    }
     
-    func setup() {
+    func setup(levelPos: LevelPosition) {
         isUserInteractionEnabled = true
         fillColor = .clear
         strokeColor = .clear
+        self.levelPos = levelPos
         addBg()
         addInnerSquare()
         addBottomPart()
@@ -68,12 +108,11 @@ class BtnNode: SKShapeNode {
     }
     
     func addInnerSquare() {
-        let thickness: CGFloat = 6
+        let thickness: CGFloat = 4
         let size = frame.width - thickness
         let square = SKShapeNode(rect: CGRect(x: frame.origin.x + (thickness / 2), y: frame.origin.y + (thickness / 2), width: size, height: size), cornerRadius: 10)
-        square.fillColor = Color.blue.color
-        square.strokeColor = Color.blue.innerColor
-        square.lineWidth = 2
+        square.fillColor = Color.blue.innerColor
+        square.lineWidth = 0
         innerSquare = square
         innerSquare.zPosition = 1
         let hide = SKAction.fadeOut(withDuration: 0)
@@ -102,6 +141,7 @@ class BtnNode: SKShapeNode {
             unPress()
         }
         isPressed.toggle()
+        delegate?.btnDidPress(self, levelPos: levelPos, isPressed: isPressed)
     }
     
     private func press() {
@@ -132,7 +172,15 @@ class BtnNode: SKShapeNode {
         bgPart.run(up)
     }
     
-
+    func attemptToggle() {
+        
+        if !isPressed {
+            press()
+        } else {
+            unPress()
+        }
+        isPressed.toggle()
+    }
     
 }
 

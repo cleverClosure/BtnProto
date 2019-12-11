@@ -10,10 +10,19 @@ import UIKit
 
 
 class BtnFactory {
-    static func createSimpleBtn(pos: CGPoint, isPressed: Bool = false) -> BtnNode {
-        let btn = BtnNode(rect: CGRect(x: pos.x, y: pos.y, width: 54, height: 54), cornerRadius: 12)
+    static func createSimpleBtn(pos: CGPoint, levelPos: LevelPosition, isPressed: Bool = false) -> StdBtn {
+        let btn = StdBtn(rect: CGRect(x: pos.x, y: pos.y, width: 54, height: 54), cornerRadius: 12)
         btn.isPressed = isPressed
-        btn.setup()
+        btn.setup(levelPos: levelPos)
         return btn
+    }
+    
+    static func createBtn(type: BtnType, pos: CGPoint, levelPos: LevelPosition, isPressed: Bool = false) -> Btn {
+        switch type {
+        case .std:
+            return createSimpleBtn(pos: pos, levelPos: levelPos, isPressed: isPressed)
+        case .empty:
+            return EmptyBtn()
+        }
     }
 }

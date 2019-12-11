@@ -3,13 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		9701B0BB23A0350200CD8489 /* BtnFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701B0BA23A0350200CD8489 /* BtnFactory.swift */; };
-		9701B0BD23A0D9A900CD8489 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701B0BC23A0D9A900CD8489 /* Layout.swift */; };
+		9701B0BD23A0D9A900CD8489 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701B0BC23A0D9A900CD8489 /* Level.swift */; };
 		9701B0BF23A0DCC900CD8489 /* LayoutPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701B0BE23A0DCC900CD8489 /* LayoutPrinter.swift */; };
+		9701B0C123A1125800CD8489 /* BehaviorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701B0C023A1125800CD8489 /* BehaviorFactory.swift */; };
+		9701B0C323A11AE500CD8489 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701B0C223A11AE500CD8489 /* Grid.swift */; };
 		970B256D23A011A90058C8B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970B256C23A011A90058C8B0 /* AppDelegate.swift */; };
 		970B257323A011A90058C8B0 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970B257223A011A90058C8B0 /* GameScene.swift */; };
 		970B257523A011A90058C8B0 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970B257423A011A90058C8B0 /* GameViewController.swift */; };
@@ -17,7 +19,7 @@
 		970B257A23A011AA0058C8B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 970B257923A011AA0058C8B0 /* Assets.xcassets */; };
 		970B257D23A011AA0058C8B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 970B257B23A011AA0058C8B0 /* LaunchScreen.storyboard */; };
 		970B258523A016410058C8B0 /* extUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970B258423A016410058C8B0 /* extUIColor.swift */; };
-		970B258723A01C8B0058C8B0 /* BtnNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970B258623A01C8B0058C8B0 /* BtnNode.swift */; };
+		970B258723A01C8B0058C8B0 /* StdBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970B258623A01C8B0058C8B0 /* StdBtn.swift */; };
 		E97B6398062EF845E008F832 /* Pods_BtnProto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63410FFEEBFDFDA292401CE2 /* Pods_BtnProto.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,8 +27,10 @@
 		63410FFEEBFDFDA292401CE2 /* Pods_BtnProto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BtnProto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E417C9DBDBC0D8925D014ED /* Pods-BtnProto.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtnProto.release.xcconfig"; path = "Target Support Files/Pods-BtnProto/Pods-BtnProto.release.xcconfig"; sourceTree = "<group>"; };
 		9701B0BA23A0350200CD8489 /* BtnFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BtnFactory.swift; sourceTree = "<group>"; };
-		9701B0BC23A0D9A900CD8489 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
+		9701B0BC23A0D9A900CD8489 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		9701B0BE23A0DCC900CD8489 /* LayoutPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutPrinter.swift; sourceTree = "<group>"; };
+		9701B0C023A1125800CD8489 /* BehaviorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BehaviorFactory.swift; sourceTree = "<group>"; };
+		9701B0C223A11AE500CD8489 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		970B256923A011A90058C8B0 /* BtnProto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BtnProto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		970B256C23A011A90058C8B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		970B257223A011A90058C8B0 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -36,7 +40,7 @@
 		970B257C23A011AA0058C8B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		970B257E23A011AA0058C8B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		970B258423A016410058C8B0 /* extUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extUIColor.swift; sourceTree = "<group>"; };
-		970B258623A01C8B0058C8B0 /* BtnNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BtnNode.swift; sourceTree = "<group>"; };
+		970B258623A01C8B0058C8B0 /* StdBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StdBtn.swift; sourceTree = "<group>"; };
 		A8751407ED585D1A30FA0884 /* Pods-BtnProto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtnProto.debug.xcconfig"; path = "Target Support Files/Pods-BtnProto/Pods-BtnProto.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,9 +88,11 @@
 			children = (
 				970B256C23A011A90058C8B0 /* AppDelegate.swift */,
 				970B257223A011A90058C8B0 /* GameScene.swift */,
-				9701B0BC23A0D9A900CD8489 /* Layout.swift */,
+				9701B0BC23A0D9A900CD8489 /* Level.swift */,
 				9701B0BE23A0DCC900CD8489 /* LayoutPrinter.swift */,
-				970B258623A01C8B0058C8B0 /* BtnNode.swift */,
+				9701B0C023A1125800CD8489 /* BehaviorFactory.swift */,
+				9701B0C223A11AE500CD8489 /* Grid.swift */,
+				970B258623A01C8B0058C8B0 /* StdBtn.swift */,
 				9701B0BA23A0350200CD8489 /* BtnFactory.swift */,
 				970B257423A011A90058C8B0 /* GameViewController.swift */,
 				970B258423A016410058C8B0 /* extUIColor.swift */,
@@ -206,11 +212,13 @@
 				9701B0BF23A0DCC900CD8489 /* LayoutPrinter.swift in Sources */,
 				970B257323A011A90058C8B0 /* GameScene.swift in Sources */,
 				9701B0BB23A0350200CD8489 /* BtnFactory.swift in Sources */,
+				9701B0C323A11AE500CD8489 /* Grid.swift in Sources */,
 				970B258523A016410058C8B0 /* extUIColor.swift in Sources */,
 				970B257523A011A90058C8B0 /* GameViewController.swift in Sources */,
 				970B256D23A011A90058C8B0 /* AppDelegate.swift in Sources */,
-				970B258723A01C8B0058C8B0 /* BtnNode.swift in Sources */,
-				9701B0BD23A0D9A900CD8489 /* Layout.swift in Sources */,
+				970B258723A01C8B0058C8B0 /* StdBtn.swift in Sources */,
+				9701B0C123A1125800CD8489 /* BehaviorFactory.swift in Sources */,
+				9701B0BD23A0D9A900CD8489 /* Level.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
