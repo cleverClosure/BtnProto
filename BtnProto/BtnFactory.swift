@@ -11,7 +11,7 @@ import UIKit
 
 class BtnFactory {
     static func createSimpleBtn(pos: CGPoint, levelPos: LevelPosition, isPressed: Bool = false) -> StdBtn {
-        let btn = StdBtn(rect: CGRect(x: pos.x, y: pos.y, width: 54, height: 54), cornerRadius: 12)
+        let btn = StdBtn(rect: CGRect(x: pos.x, y: pos.y, width: Constant.Dimension.btnSize, height: Constant.Dimension.btnSize), cornerRadius: 12)
         btn.isPressed = isPressed
         btn.setup(levelPos: levelPos)
         return btn

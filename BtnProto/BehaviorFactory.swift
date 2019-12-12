@@ -9,7 +9,7 @@
 import Foundation
 
 protocol BehaviorDelegate {
-    func toggleState(pos: LevelPosition)
+    func toggleState(pos: [LevelPosition])
 }
 
 class Behavior {
@@ -26,12 +26,10 @@ class StdBehavior: Behavior {
     
     override func perform() {
         let item1 = LevelPosition(btnPos.row + 1, btnPos.col)
-        let item2 = LevelPosition(btnPos.row - 1, btnPos.col)
-        let item3 = LevelPosition(btnPos.row, btnPos.col + 1)
+        let item2 = LevelPosition(btnPos.row, btnPos.col + 1)
+        let item3 = LevelPosition(btnPos.row - 1, btnPos.col)
         let item4 = LevelPosition(btnPos.row, btnPos.col - 1)
-        [item1, item2, item3, item4].forEach {
-            delegate?.toggleState(pos: $0)
-        }
+        delegate?.toggleState(pos: [item1, item2, item3, item4])
     }
 }
 

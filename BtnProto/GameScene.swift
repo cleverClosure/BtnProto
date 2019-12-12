@@ -11,27 +11,56 @@ import GameplayKit
 
 class GameScene: SKScene {
     let grid = Grid()
-    
-    override func didMove(to view: SKView) {
-        setGrid()
+    var edgeInsets: UIEdgeInsets! {
+        didSet {
+            addUndo()
+        }
     }
     
-    func setGrid() {
-        let levelData = [
-            [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
-            [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
-            [LNode(type: 1), LNode(type: 1), LNode(type: 1)]
-        ]
-        grid.setData(levelData)
-        grid.reloadData()
+    let restartButton = SKSpriteNode(imageNamed: "restart")
+    
+    override func didMove(to view: SKView) {
+        addGrid()
+        setupGrid()
+    }
+    
+    func addGrid() {
         grid.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         grid.delegate = self
         self.addChild(grid)
     }
+    
+    func setupGrid() {
+        let levelData = [
+            [LNode(type: 1), LNode(type: 1), LNode(type: 0)],
+            [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
+            [LNode(type: 0), LNode(type: 1), LNode(type: 1)]
+        ]
+        grid.setData(levelData)
+        grid.reloadData()
+    }
+    
+    
+    func addUndo() {
+        restartButton.position = CGPoint(x: frame.maxX - 32, y: frame.maxY - edgeInsets.top - 20)
+        self.addChild(restartButton)
+    }
 
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        guard let touch = touches.first else {
+          return
+        }
+        let touchLocation = touch.location(in: self)
+        if let node = self.nodes(at: touchLocation).first {
+            if node == restartButton {
+                restart()
+            }
+        }
+    }
+    
+    func restart() {
+        setupGrid()
     }
     
     

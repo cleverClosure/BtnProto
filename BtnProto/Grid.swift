@@ -14,14 +14,25 @@ protocol GridDelegate: class {
 
 class Grid: SKNode {
     
-    var level = Level()
+    var level = Level() {
+        didSet {
+            printer.level = self.level
+        }
+    }
+    
     var buttons: [[Btn]] = []
     lazy private var printer = LayoutPrinter(node: self, level: self.level)
     
     weak var delegate: GridDelegate?
     
     func setData(_ data: [[LNode]]) {
+        printer.clear()
+        clear()
         level.data = data
+    }
+    
+    func clear() {
+        self.removeAllChildren()
     }
     
     func reloadData() {
@@ -29,7 +40,7 @@ class Grid: SKNode {
     }
     
     private func draw() {
-        printer.print()
+        printer.printLayout()
         buttons = printer.buttons
     }
     
@@ -59,7 +70,6 @@ class Grid: SKNode {
         }
         level.data[pos.row][pos.col].isPressed = isPressed
         print("## mac \(pos.row), \(pos.col): \(isPressed), \(level.data[pos.row][pos.col].isPressed)")
-        
     }
     
     func performBehavior(_ behavior: Behavior) {
@@ -70,11 +80,16 @@ class Grid: SKNode {
 
 
 extension Grid: BehaviorDelegate {
-    func toggleState(pos: LevelPosition) {
-        if let btn = getButton(pos: pos) {
-            btn.attemptToggle()
-            updateLevelData(pos: pos, isPressed: btn.isPressed)
+    func toggleState(pos: [LevelPosition]) {
+        var delay: Double = 0.05
+        pos.forEach {
+            if let btn = getButton(pos: $0) {
+                btn.attemptToggle(delay: delay)
+                delay += 0.06
+                updateLevelData(pos: $0, isPressed: btn.isPressed)
+            }
         }
+        
     }
 }
 

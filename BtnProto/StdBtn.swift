@@ -45,16 +45,17 @@ protocol Btn: SKShapeNode {
     var isPressed: Bool { get set }
     var delegate: BtnDelegate? { get set }
     var type: BtnType { get }
-    func attemptToggle()
+    func attemptToggle(delay: Double)
 }
 
 extension Btn {
-    func attemptToggle() {}
+    func attemptToggle(delay: Double) {}
 }
 
 class EmptyBtn: SKShapeNode, Btn {
+    
     var levelPos = LevelPosition(0, 0)
-    var isPressed: Bool = false
+    var isPressed: Bool = true
     var delegate: BtnDelegate?
     var type: BtnType {
         return .empty
@@ -72,10 +73,14 @@ class StdBtn: SKShapeNode, Btn {
     var isPressed: Bool = false
     var delegate: BtnDelegate?
     
-    private let down = SKAction.moveBy(x: 0, y: -3, duration: 0.1)
+    let cornerRadius = Constant.Dimension.btnMainRadius
+    
+    private let down = SKAction.moveBy(x: 0, y: -Constant.Dimension.btnUnPressAnimationDiff, duration: 0.1)
     private let unHide = SKAction.fadeIn(withDuration: 0.1)
-    private let up = SKAction.moveBy(x: 0, y: 3, duration: 0.1)
+    private let up = SKAction.moveBy(x: 0, y: Constant.Dimension.btnUnPressAnimationDiff, duration: 0.1)
     private let hide = SKAction.fadeOut(withDuration: 0.1)
+    
+    
     var type: BtnType {
         return .std
     }
@@ -98,7 +103,7 @@ class StdBtn: SKShapeNode, Btn {
     }
     
     func addBg() {
-        let square = SKShapeNode(rect: self.frame, cornerRadius: 12)
+        let square = SKShapeNode(rect: self.frame, cornerRadius: cornerRadius)
         square.fillColor = Color.blue.color
         square.strokeColor = .clear
         square.lineWidth = 0
@@ -108,9 +113,9 @@ class StdBtn: SKShapeNode, Btn {
     }
     
     func addInnerSquare() {
-        let thickness: CGFloat = 4
+        let thickness: CGFloat = Constant.Dimension.btnEdgeThinckness
         let size = frame.width - thickness
-        let square = SKShapeNode(rect: CGRect(x: frame.origin.x + (thickness / 2), y: frame.origin.y + (thickness / 2), width: size, height: size), cornerRadius: 10)
+        let square = SKShapeNode(rect: CGRect(x: frame.origin.x + (thickness / 2), y: frame.origin.y + (thickness / 2), width: size, height: size), cornerRadius: cornerRadius)
         square.fillColor = Color.blue.innerColor
         square.lineWidth = 0
         innerSquare = square
@@ -122,12 +127,11 @@ class StdBtn: SKShapeNode, Btn {
     }
     
     func addBottomPart() {
-        let diff: CGFloat = 2
-        let width = innerSquare.frame.width
-        let height: CGFloat = 36
-        let bottom = SKShapeNode(rect: CGRect(x: innerSquare.frame.minX - diff / 2, y: frame.minY - 6, width: width + diff, height: height), cornerRadius: 12)
+        let width = frame.width
+        let height: CGFloat = frame.height
+        let bottom = SKShapeNode(rect: CGRect(x: frame.minX, y: frame.minY - Constant.Dimension.btnBottomHeight, width: width, height: height), cornerRadius: Constant.Dimension.btnBottomRadius)
         bottom.fillColor = Color.blue.innerColor
-        bottom.strokeColor = Color.blue.innerColor
+        bottom.lineWidth = 0
         bottom.zPosition = -1
         bottomPart = bottom
         addChild(bottom)
@@ -144,40 +148,42 @@ class StdBtn: SKShapeNode, Btn {
         delegate?.btnDidPress(self, levelPos: levelPos, isPressed: isPressed)
     }
     
-    private func press() {
+    private func press(delay: Double = 0) {
         guard !isPressed else {
             return
         }
-        animatePress()
+        animatePress(duration: 0.1, delay: delay)
     }
     
-    private func animatePress(duration: Double = 0.1) {
+    private func animatePress(duration: Double = 0.1, delay: Double = 0) {
+        let wait = SKAction.wait(forDuration: delay)
         down.duration = duration
         unHide.duration = duration
-        bgPart.run(down)
-        innerSquare.run(unHide)
+        
+        bgPart.run(SKAction.sequence([wait, down]))
+        innerSquare.run(SKAction.sequence([wait, unHide]))
     }
     
-    private func unPress(duration: Double = 0.1) {
+    private func unPress(delay: Double = 0) {
         guard isPressed else {
             return
         }
-        animateUnPress()
+        animateUnPress(duration: 0.1, delay: delay)
     }
     
-    private func animateUnPress(duration: Double = 0.1) {
+    private func animateUnPress(duration: Double = 0.1, delay: Double = 0) {
+        let wait = SKAction.wait(forDuration: delay)
         up.duration = duration
         hide.duration = duration
-        innerSquare.run(hide)
-        bgPart.run(up)
+        innerSquare.run(SKAction.sequence([wait, hide]))
+        bgPart.run(SKAction.sequence([wait, up]))
     }
     
-    func attemptToggle() {
-        
+    func attemptToggle(delay: Double = 0.05) {
         if !isPressed {
-            press()
+            press(delay: delay)
         } else {
-            unPress()
+            unPress(delay: delay)
         }
         isPressed.toggle()
     }

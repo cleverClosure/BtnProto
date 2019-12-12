@@ -18,17 +18,17 @@ class LayoutPrinter {
     var buttons: [[Btn]] = []
     
     var playRect: SKShapeNode!
-    private let edge: CGFloat = 10
-    private let btnGap: CGFloat = 6
-    private let btnSize: CGFloat = 54
-    private let bottomBtnHeight: CGFloat = 6
+    private let edge: CGFloat = Constant.Dimension.playRectEdge
+    private let btnGap: CGFloat = Constant.Dimension.btnGap
+    private let btnSize: CGFloat = Constant.Dimension.btnSize
+    private let bottomBtnHeight: CGFloat = Constant.Dimension.btnBottomHeight
     
     init(node: SKNode, level: Level = Level()) {
         self.parentNode = node
         self.level = level
     }
     
-    func print() {
+    func printLayout() {
         drawPlayRect()
         addButtons()
     }
@@ -40,21 +40,20 @@ class LayoutPrinter {
         square.strokeColor = .clear
         square.lineWidth = 0
         playRect = square
-        parentNode?.addChild(square)
+        parentNode.addChild(playRect)
     }
     
     private func addButtons() {
         buttons = []
-        let btnSize: CGFloat = 54
-        let startX = playRect.frame.minX// + edge
-        let startY = playRect.frame.maxY - (btnSize) - edge
-        var x = startX - btnSize
-        var y = startY + edge + btnSize
+        let startX = playRect.frame.minX + edge
+        let startY = playRect.frame.maxY
+        var x = startX
+        var y = startY - edge + btnGap + bottomBtnHeight
         for (rowIdx, row) in level.data.enumerated() {
-            y = y - edge - btnSize
-            x = startX - btnSize
+            y = y - btnGap - btnSize - bottomBtnHeight
+            x = startX - btnSize - btnGap
             for (itemIdx, item) in row.enumerated() {
-                x = x + edge + btnSize
+                x = x + btnSize + btnGap
                 let btn = BtnFactory.createBtn(type: item.type, pos: CGPoint(x: x, y: y), levelPos: LevelPosition(rowIdx, itemIdx), isPressed: item.isPressed)
                 if let delegate = parentNode as? BtnDelegate {
                     btn.delegate = delegate
@@ -74,14 +73,22 @@ class LayoutPrinter {
     
     
     private func getPlayRectFrame() -> CGRect {
-        let rawWidth = (CGFloat(level.width) * (btnSize + btnGap)) //- btnGap
+        
+        let rawWidth = (CGFloat(level.width) * (btnSize + btnGap)) - btnGap
         let width = rawWidth + edge * 2
-        let rawHeight = (CGFloat(level.height) * (btnSize + btnGap)) - btnGap
-        let height = rawHeight + (edge * 2) + bottomBtnHeight
+        print("## wd \(level.height)")
+        let rawHeight = (CGFloat(level.height) * (btnSize + btnGap + bottomBtnHeight)) - btnGap
+        let height = rawHeight + (edge * 2)
         let x = (parentNode.frame.width / 2) - width / 2
         let y = (parentNode.frame.height / 2) - height / 2
-        let rect = CGRect(x: x, y: y, width: width, height: height + bottomBtnHeight)
+        let rect = CGRect(x: x, y: y, width: width, height: height)
         return rect
+    }
+    
+    func clear() {
+        parentNode.children.forEach {
+            $0.removeFromParent()
+        }
     }
     
 }

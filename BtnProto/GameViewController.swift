@@ -11,16 +11,24 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
+    
+    lazy var scene = GameScene(size:CGSize(width: view.frame.width, height: view.frame.height))
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let scene = GameScene(size:CGSize(width: view.frame.width, height: view.frame.height))
+        
         let skView = self.view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .aspectFill
         skView.presentScene(scene)
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scene.edgeInsets = view.safeAreaInsets
     }
 
     override var shouldAutorotate: Bool {
