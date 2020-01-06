@@ -12,9 +12,10 @@ import Foundation
 enum BtnType: Int {
     case empty = 0
     case std = 1
+    case locked = 2
 }
 
-class LNode {
+struct LNode {
     let type: BtnType
     var isPressed: Bool
     
@@ -60,6 +61,10 @@ class Level {
             }
         }
         return true
+    }
+    
+    init(data: [[LNode]]) {
+        self.data = data
     }
     
     func printLayout() {

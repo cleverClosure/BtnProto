@@ -23,7 +23,7 @@ class LayoutPrinter {
     private let btnSize: CGFloat = Constant.Dimension.btnSize
     private let bottomBtnHeight: CGFloat = Constant.Dimension.btnBottomHeight
     
-    init(node: SKNode, level: Level = Level()) {
+    init(node: SKNode, level: Level) {
         self.parentNode = node
         self.level = level
     }
@@ -49,12 +49,14 @@ class LayoutPrinter {
         let startY = playRect.frame.maxY
         var x = startX
         var y = startY - edge + btnGap + bottomBtnHeight
+        var currentAnimDelay: Double = 0.5
         for (rowIdx, row) in level.data.enumerated() {
             y = y - btnGap - btnSize - bottomBtnHeight
             x = startX - btnSize - btnGap
             for (itemIdx, item) in row.enumerated() {
                 x = x + btnSize + btnGap
-                let btn = BtnFactory.createBtn(type: item.type, pos: CGPoint(x: x, y: y), levelPos: LevelPosition(rowIdx, itemIdx), isPressed: item.isPressed)
+                
+                let btn = BtnFactory.createBtn(type: item.type, pos: CGPoint(x: x, y: y), levelPos: GridPos(rowIdx, itemIdx), isPressed: item.isPressed, delay: currentAnimDelay)
                 if let delegate = parentNode as? BtnDelegate {
                     btn.delegate = delegate
                 }
@@ -64,11 +66,29 @@ class LayoutPrinter {
                 buttons[rowIdx].append(btn)
                 if item.type == .empty {
                     continue
+                } else {
+                    currentAnimDelay += 0.05
                 }
                 playRect.addChild(btn)
             }
         }
-        
+    }
+    
+    func restoreLevel() {
+        level.printLayout()
+        var currentDelay: Double = 0
+        for (rowIdx, row) in buttons.enumerated() {
+            for (itemIdx, btn) in row.enumerated() {
+                if let button = btn as? BasicBtn {
+                    currentDelay += 0.05
+                    if level.data[rowIdx][itemIdx].isPressed {
+                        button.press(delay: currentDelay)
+                    } else {
+                        button.unPress(delay: currentDelay)
+                    }
+                }
+            }
+        }
     }
     
     

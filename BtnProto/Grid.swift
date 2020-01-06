@@ -9,12 +9,12 @@
 import SpriteKit
 
 protocol GridDelegate: class {
-    func gridBtnDidPress(_ grid: Grid, btn: Btn, pos: LevelPosition)
+    func gridBtnDidPress(_ grid: Grid, btn: Btn, pos: GridPos)
 }
 
 class Grid: SKNode {
     
-    var level = Level() {
+    var level = Level(data: []) {
         didSet {
             printer.level = self.level
         }
@@ -29,14 +29,11 @@ class Grid: SKNode {
         printer.clear()
         clear()
         level.data = data
+        draw()
     }
     
     func clear() {
         self.removeAllChildren()
-    }
-    
-    func reloadData() {
-        draw()
     }
     
     private func draw() {
@@ -44,7 +41,15 @@ class Grid: SKNode {
         buttons = printer.buttons
     }
     
-    func posIsInsideBoundaries(_ pos: LevelPosition) -> Bool {
+    func restoreLevel(_ data: [[LNode]]) {
+        level = Level(data: data)
+//        print("## ----")
+//        level.printLayout()
+//        print("## ----///")
+        printer.restoreLevel()
+    }
+    
+    func posIsInsideBoundaries(_ pos: GridPos) -> Bool {
         guard pos.row >= 0, pos.col >= 0 else {
             return false
         }
@@ -57,14 +62,14 @@ class Grid: SKNode {
         return true
     }
     
-    func getButton(pos: LevelPosition) -> Btn? {
+    func getButton(pos: GridPos) -> Btn? {
         guard posIsInsideBoundaries(pos) else {
             return nil
         }
         return buttons[pos.row][pos.col]
     }
     
-    func updateLevelData(pos: LevelPosition, isPressed: Bool) {
+    func updateLevelData(pos: GridPos, isPressed: Bool) {
         guard posIsInsideBoundaries(pos) else {
             return
         }
@@ -80,7 +85,7 @@ class Grid: SKNode {
 
 
 extension Grid: BehaviorDelegate {
-    func toggleState(pos: [LevelPosition]) {
+    func toggleState(pos: [GridPos]) {
         var delay: Double = 0.05
         pos.forEach {
             if let btn = getButton(pos: $0) {
@@ -95,7 +100,7 @@ extension Grid: BehaviorDelegate {
 
 
 extension Grid: BtnDelegate {
-    func btnDidPress(_ btn: Btn, levelPos: LevelPosition, isPressed: Bool) {
+    func btnDidPress(_ btn: Btn, levelPos: GridPos, isPressed: Bool) {
         updateLevelData(pos: levelPos, isPressed: isPressed)
         delegate?.gridBtnDidPress(self, btn: btn, pos: levelPos)
     }

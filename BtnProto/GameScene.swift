@@ -9,13 +9,23 @@
 import SpriteKit
 import GameplayKit
 
+
+
 class GameScene: SKScene {
+    
     let grid = Grid()
+    
     var edgeInsets: UIEdgeInsets! {
         didSet {
-            addUndo()
+            addRestart()
         }
     }
+    
+    let levelData = [
+        [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
+        [LNode(type: 1), LNode(type: 2), LNode(type: 1)],
+        [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
+    ]
     
     let restartButton = SKSpriteNode(imageNamed: "restart")
     
@@ -31,22 +41,15 @@ class GameScene: SKScene {
     }
     
     func setupGrid() {
-        let levelData = [
-            [LNode(type: 1), LNode(type: 1), LNode(type: 0)],
-            [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
-            [LNode(type: 0), LNode(type: 1), LNode(type: 1)]
-        ]
+        
         grid.setData(levelData)
-        grid.reloadData()
     }
     
-    
-    func addUndo() {
-        restartButton.position = CGPoint(x: frame.maxX - 32, y: frame.maxY - edgeInsets.top - 20)
+    func addRestart() {
+        restartButton.position = CGPoint(x: frame.maxX - 32, y: frame.maxY - edgeInsets.top - 30)
         self.addChild(restartButton)
     }
 
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
           return
@@ -60,14 +63,12 @@ class GameScene: SKScene {
     }
     
     func restart() {
-        setupGrid()
+        grid.restoreLevel(levelData)
     }
-    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
-    
     
     override func update(_ currentTime: TimeInterval) {
         
@@ -81,7 +82,7 @@ class GameScene: SKScene {
 }
 
 extension GameScene: GridDelegate {
-    func gridBtnDidPress(_ grid: Grid, btn: Btn, pos: LevelPosition) {
+    func gridBtnDidPress(_ grid: Grid, btn: Btn, pos: GridPos) {
         let behavior = BehaviorFactory.getBehaviour(btn.type, pos: pos)
         grid.performBehavior(behavior)
         grid.level.printLayout()
