@@ -13,6 +13,7 @@ enum BtnType: Int {
     case empty = 0
     case std = 1
     case locked = 2
+    case independent
 }
 
 struct LNode {

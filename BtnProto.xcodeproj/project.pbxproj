@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,11 @@
 		970B257D23A011AA0058C8B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 970B257B23A011AA0058C8B0 /* LaunchScreen.storyboard */; };
 		970B258523A016410058C8B0 /* extUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970B258423A016410058C8B0 /* extUIColor.swift */; };
 		970B258723A01C8B0058C8B0 /* StdBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970B258623A01C8B0058C8B0 /* StdBtn.swift */; };
+		975347A523C4539C0070F583 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975347A423C4539C0070F583 /* GameData.swift */; };
+		975347A723C456E60070F583 /* BackgroundFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975347A623C456E60070F583 /* BackgroundFactory.swift */; };
+		975347A923C458970070F583 /* SKTextureExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975347A823C458970070F583 /* SKTextureExtension.swift */; };
+		975347AB23C4855C0070F583 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975347AA23C4855C0070F583 /* MainViewController.swift */; };
+		975347AD23C48BB70070F583 /* LevelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975347AC23C48BB70070F583 /* LevelsViewController.swift */; };
 		9758F1A023C21F4E00F329E7 /* ButtonColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9758F19F23C21F4E00F329E7 /* ButtonColor.swift */; };
 		97EF5E9F23A3CD6F0066F97D /* TimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EF5E9E23A3CD6F0066F97D /* TimingFunctions.swift */; };
 		E97B6398062EF845E008F832 /* Pods_BtnProto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63410FFEEBFDFDA292401CE2 /* Pods_BtnProto.framework */; };
@@ -45,6 +50,11 @@
 		970B257E23A011AA0058C8B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		970B258423A016410058C8B0 /* extUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extUIColor.swift; sourceTree = "<group>"; };
 		970B258623A01C8B0058C8B0 /* StdBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StdBtn.swift; sourceTree = "<group>"; };
+		975347A423C4539C0070F583 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
+		975347A623C456E60070F583 /* BackgroundFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFactory.swift; sourceTree = "<group>"; };
+		975347A823C458970070F583 /* SKTextureExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTextureExtension.swift; sourceTree = "<group>"; };
+		975347AA23C4855C0070F583 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		975347AC23C48BB70070F583 /* LevelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsViewController.swift; sourceTree = "<group>"; };
 		9758F19F23C21F4E00F329E7 /* ButtonColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonColor.swift; sourceTree = "<group>"; };
 		97EF5E9E23A3CD6F0066F97D /* TimingFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingFunctions.swift; sourceTree = "<group>"; };
 		A8751407ED585D1A30FA0884 /* Pods-BtnProto.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BtnProto.debug.xcconfig"; path = "Target Support Files/Pods-BtnProto/Pods-BtnProto.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,7 +113,12 @@
 				97EF5E9E23A3CD6F0066F97D /* TimingFunctions.swift */,
 				9701B0BA23A0350200CD8489 /* BtnFactory.swift */,
 				9758F19F23C21F4E00F329E7 /* ButtonColor.swift */,
+				975347A623C456E60070F583 /* BackgroundFactory.swift */,
 				970B257423A011A90058C8B0 /* GameViewController.swift */,
+				975347AA23C4855C0070F583 /* MainViewController.swift */,
+				975347AC23C48BB70070F583 /* LevelsViewController.swift */,
+				975347A823C458970070F583 /* SKTextureExtension.swift */,
+				975347A423C4539C0070F583 /* GameData.swift */,
 				970B258423A016410058C8B0 /* extUIColor.swift */,
 				970B257623A011A90058C8B0 /* Main.storyboard */,
 				970B257923A011AA0058C8B0 /* Assets.xcassets */,
@@ -140,6 +155,7 @@
 				970B256523A011A90058C8B0 /* Sources */,
 				970B256623A011A90058C8B0 /* Frameworks */,
 				970B256723A011A90058C8B0 /* Resources */,
+				E9095B3DD83CDFCC07ABE597 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -219,6 +235,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E9095B3DD83CDFCC07ABE597 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BtnProto/Pods-BtnProto-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BtnProto/Pods-BtnProto-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BtnProto/Pods-BtnProto-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -233,12 +266,17 @@
 				9701B0C323A11AE500CD8489 /* Grid.swift in Sources */,
 				970B258523A016410058C8B0 /* extUIColor.swift in Sources */,
 				970B257523A011A90058C8B0 /* GameViewController.swift in Sources */,
+				975347AB23C4855C0070F583 /* MainViewController.swift in Sources */,
 				970B256D23A011A90058C8B0 /* AppDelegate.swift in Sources */,
+				975347AD23C48BB70070F583 /* LevelsViewController.swift in Sources */,
+				975347A523C4539C0070F583 /* GameData.swift in Sources */,
 				9758F1A023C21F4E00F329E7 /* ButtonColor.swift in Sources */,
 				970B258723A01C8B0058C8B0 /* StdBtn.swift in Sources */,
 				97EF5E9F23A3CD6F0066F97D /* TimingFunctions.swift in Sources */,
+				975347A723C456E60070F583 /* BackgroundFactory.swift in Sources */,
 				9701B0C123A1125800CD8489 /* BehaviorFactory.swift in Sources */,
 				9701B0BD23A0D9A900CD8489 /* Level.swift in Sources */,
+				975347A923C458970070F583 /* SKTextureExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

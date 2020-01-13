@@ -94,7 +94,6 @@ extension Grid: BehaviorDelegate {
                 updateLevelData(pos: $0, isPressed: btn.isPressed)
             }
         }
-        
     }
 }
 

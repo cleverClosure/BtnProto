@@ -44,6 +44,8 @@ class BehaviorFactory {
             return StdBehavior(pos: pos)
         case .locked:
             return Behavior(pos: pos)
+        case .independent:
+            return StdBehavior(pos: pos)
         }
     }
 }

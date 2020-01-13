@@ -1,3 +1,16 @@
-PODFILE CHECKSUM: e99c6861f32e4783aff1e9c854898ad97f9fda0b
+PODS:
+  - CollectionNode (1.1.1)
+
+DEPENDENCIES:
+  - CollectionNode
+
+SPEC REPOS:
+  trunk:
+    - CollectionNode
+
+SPEC CHECKSUMS:
+  CollectionNode: d57a878b3c8d841e67d10aa741d68ae7064a2b35
+
+PODFILE CHECKSUM: 2d6eb7237f54847742648da023478c35b7b26a9b
 
 COCOAPODS: 1.8.0

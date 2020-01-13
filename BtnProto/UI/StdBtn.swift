@@ -301,5 +301,15 @@ class LockedBtn: OverlayBtn {
         super.setup(levelPos: levelPos, delay: delay)
         isUserInteractionEnabled = false
     }
+}
+
+
+class IndependentBtn: StdBtn {
+    override var color: ButtonColor {
+        return .beige
+    }
     
+    override func attemptToggle(delay: Double = 0.05) {
+        // do nothing
+    }
 }

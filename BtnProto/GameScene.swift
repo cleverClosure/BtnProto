@@ -17,25 +17,42 @@ class GameScene: SKScene {
     
     var edgeInsets: UIEdgeInsets! {
         didSet {
-            addRestart()
+            if oldValue == nil {
+                addRestart()
+            }
         }
     }
     
-    let levelData = [
-        [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
-        [LNode(type: 1), LNode(type: 2), LNode(type: 1)],
-        [LNode(type: 1), LNode(type: 1), LNode(type: 1)],
-    ]
+    lazy var center: CGPoint = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
     
+    let levelData: [[LNode]]
+    let background: SKSpriteNode
     let restartButton = SKSpriteNode(imageNamed: "restart")
     
+    
+    init(size: CGSize, levelData: [[LNode]], background: SKSpriteNode) {
+        self.levelData = levelData
+        self.background = background
+        super.init(size: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func didMove(to view: SKView) {
+        addBackground()
         addGrid()
         setupGrid()
     }
     
+    func addBackground() {
+        background.position = CGPoint(x: frame.midX, y: frame.midY)
+        addChild(background)
+    }
+    
     func addGrid() {
-        grid.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        grid.position = center
         grid.delegate = self
         self.addChild(grid)
     }
@@ -75,9 +92,15 @@ class GameScene: SKScene {
     }
     
     func levelComplete() {
-        self.backgroundColor = .lightGray
-        let ac = SKAction.colorize(with: UIColor.lightGray, colorBlendFactor: 1, duration: 2)
-        self.run(ac)
+//        self.backgroundColor = .lightGray
+//        let ac = SKAction.colorize(with: UIColor.lightGray, colorBlendFactor: 1, duration: 2)
+//        self.run(ac)
+        if let emitter = SKEmitterNode(fileNamed: "WinParticle.sks") {
+            emitter.position = center
+            emitter.zPosition = 100000
+            addChild(emitter)
+        }
+        
     }
 }
 

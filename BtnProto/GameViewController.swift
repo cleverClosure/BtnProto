@@ -12,7 +12,7 @@ import GameplayKit
 
 class GameViewController: UIViewController {
     
-    lazy var scene = GameScene(size:CGSize(width: view.frame.width, height: view.frame.height))
+    lazy var scene = GameScene(size:CGSize(width: view.frame.width, height: view.frame.height), levelData: GameData.LevelData.level1, background: BackgroundFactory.getBackground(size: view.frame.size))
 
     override func viewDidLoad() {
         super.viewDidLoad()
