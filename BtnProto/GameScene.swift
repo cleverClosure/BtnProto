@@ -15,6 +15,8 @@ class GameScene: SKScene {
     
     let grid = Grid()
     
+    var levelUserResponseDelegate: LevelUserResponseDelegate?
+    
     var edgeInsets: UIEdgeInsets! {
         didSet {
             if oldValue == nil {
@@ -41,6 +43,7 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        grid.isUserInteractionEnabled = true
         addBackground()
         addGrid()
         setupGrid()
@@ -81,6 +84,7 @@ class GameScene: SKScene {
     
     func restart() {
         grid.restoreLevel(levelData)
+        grid.isUserInteractionEnabled = true
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -92,15 +96,8 @@ class GameScene: SKScene {
     }
     
     func levelComplete() {
-//        self.backgroundColor = .lightGray
-//        let ac = SKAction.colorize(with: UIColor.lightGray, colorBlendFactor: 1, duration: 2)
-//        self.run(ac)
-        if let emitter = SKEmitterNode(fileNamed: "WinParticle.sks") {
-            emitter.position = center
-            emitter.zPosition = 100000
-            addChild(emitter)
-        }
-        
+        grid.isUserInteractionEnabled = false
+        levelUserResponseDelegate?.didFinishTheLevel()
     }
 }
 

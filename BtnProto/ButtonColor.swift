@@ -11,18 +11,17 @@ import UIKit
 enum ButtonColor {
     case blue
     case red
-    case black
+    case purp
     case beige
     
     var main: UIColor {
         switch self {
         case .blue:
-            return UIColor(hex: 0x25CCF7)
+            return UIColor(hex: 0x18BAE4)
         case .red:
             return UIColor(hex: 0xBF4850)
-        case .black:
-            return UIColor(hex: 0x2d3436)
-            
+        case .purp:
+            return UIColor(hex: 0x342967)
         case .beige:
             return UIColor(hex: 0xFFFCED)
         }
@@ -31,11 +30,11 @@ enum ButtonColor {
     var inner: UIColor {
         switch self {
         case .blue:
-            return UIColor(hex: 0x209FC0)
+            return UIColor(hex: 0x6EDCF9)
         case .red:
             return UIColor(hex: 0x982C33)
-        case .black:
-            return UIColor(hex: 0x1D2223)
+        case .purp:
+            return main.lighter(by: 30)//UIColor(hex: 0x1D2223)
         case .beige:
             return UIColor(hex: 0xCECAB7)
         }

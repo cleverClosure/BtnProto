@@ -21,9 +21,6 @@ struct Constant {
         static var btnBottomHeight: CGFloat {
             return btnSize * 0.15
         }
-        static var btnUnPressAnimationDiff: CGFloat {
-            return btnBottomHeight / 2
-        }
         
         static var playRectEdge: CGFloat {
             return btnSize * 0.3
@@ -34,6 +31,10 @@ struct Constant {
         }
         static var btnMainRadius: CGFloat {
             return btnSize * 0.17
+        }
+        
+        static var btnInnerRadius: CGFloat {
+            return btnSize * 0.14
         }
         
         static var btnBottomRadius: CGFloat {

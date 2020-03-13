@@ -1,16 +1,16 @@
 PODS:
-  - CollectionNode (1.1.1)
+  - SAConfettiView (0.1.8)
 
 DEPENDENCIES:
-  - CollectionNode
+  - SAConfettiView
 
 SPEC REPOS:
   trunk:
-    - CollectionNode
+    - SAConfettiView
 
 SPEC CHECKSUMS:
-  CollectionNode: d57a878b3c8d841e67d10aa741d68ae7064a2b35
+  SAConfettiView: c87031a2280659261b730fce3669fb10e73636ee
 
-PODFILE CHECKSUM: 2d6eb7237f54847742648da023478c35b7b26a9b
+PODFILE CHECKSUM: a88be255ba4353c0c8e12c7dbee6a16629a7bcb2
 
 COCOAPODS: 1.8.0

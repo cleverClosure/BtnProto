@@ -25,6 +25,18 @@ class Grid: SKNode {
     
     weak var delegate: GridDelegate?
     
+    override var isUserInteractionEnabled: Bool {
+        didSet {
+            setUserInteraction(to: isUserInteractionEnabled)
+        }
+    }
+    
+    private func setUserInteraction(to val: Bool) {
+        enumerateChildNodes(withName: "//btn") { (node, pointer) in
+            node.isUserInteractionEnabled = val
+        }
+    }
+    
     func setData(_ data: [[LNode]]) {
         printer.clear()
         clear()
@@ -43,9 +55,6 @@ class Grid: SKNode {
     
     func restoreLevel(_ data: [[LNode]]) {
         level = Level(data: data)
-//        print("## ----")
-//        level.printLayout()
-//        print("## ----///")
         printer.restoreLevel()
     }
     

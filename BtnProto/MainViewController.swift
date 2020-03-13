@@ -8,11 +8,13 @@
 
 import UIKit
 
+
 class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        backgroundPlayer.volume = 0.6
+        backgroundPlayer.loop(name: "blueScorpion")
     }
     
     private func openGame() {
@@ -24,6 +26,7 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func actionPlay(_ sender: UIButton) {
+        backgroundPlayer.pause()
         openGame()
     }
     

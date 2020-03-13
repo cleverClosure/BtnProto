@@ -32,15 +32,18 @@ class BtnFactory {
     }
     
     static func createBtn(type: BtnType, pos: CGPoint, levelPos: GridPos, isPressed: Bool = false, delay: Double = 0) -> Btn {
+        var btn: Btn
         switch type {
         case .std:
-            return createSimpleBtn(pos: pos, levelPos: levelPos, isPressed: isPressed, delay: delay)
+            btn = createSimpleBtn(pos: pos, levelPos: levelPos, isPressed: isPressed, delay: delay)
         case .empty:
-            return EmptyBtn()
+            btn = EmptyBtn()
         case .locked:
-            return createLockedBtn(pos: pos, levelPos: levelPos, isPressed: isPressed, delay: delay)
+            btn = createLockedBtn(pos: pos, levelPos: levelPos, isPressed: isPressed, delay: delay)
         case .independent:
-            return createIndependentBtn(pos: pos, levelPos: levelPos, isPressed: isPressed, delay: delay)
+            btn = createIndependentBtn(pos: pos, levelPos: levelPos, isPressed: isPressed, delay: delay)
         }
+        btn.name = "btn"
+        return btn
     }
 }

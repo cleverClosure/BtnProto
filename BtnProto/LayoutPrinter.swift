@@ -55,7 +55,6 @@ class LayoutPrinter {
             x = startX - btnSize - btnGap
             for (itemIdx, item) in row.enumerated() {
                 x = x + btnSize + btnGap
-                
                 let btn = BtnFactory.createBtn(type: item.type, pos: CGPoint(x: x, y: y), levelPos: GridPos(rowIdx, itemIdx), isPressed: item.isPressed, delay: currentAnimDelay)
                 if let delegate = parentNode as? BtnDelegate {
                     btn.delegate = delegate

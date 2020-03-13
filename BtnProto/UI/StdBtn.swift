@@ -55,11 +55,20 @@ class BasicBtn: SKShapeNode, Btn {
     var color: ButtonColor {
         return .blue
     }
+    var darkerColor: UIColor {
+        return color.main.darker(by: 30)
+    }
     
-    let cornerRadius = Constant.Dimension.btnMainRadius
+    fileprivate let cornerRadius = Constant.Dimension.btnMainRadius
     
-    private let down = SKAction.moveBy(x: 0, y: -Constant.Dimension.btnUnPressAnimationDiff, duration: 0.1)
-    private let up = SKAction.moveBy(x: 0, y: Constant.Dimension.btnUnPressAnimationDiff, duration: 0.1)
+    fileprivate let btnUnPressAnimationDiff: CGFloat = Constant.Dimension.btnBottomHeight / 1.4
+    fileprivate let upABitAnimationDiff: CGFloat = (Constant.Dimension.btnBottomHeight / 2) * 0.4
+    
+    fileprivate lazy var down = SKAction.moveBy(x: 0, y: -self.btnUnPressAnimationDiff, duration: 0.1)
+    fileprivate lazy var upABit = SKAction.moveBy(x: 0, y: self.upABitAnimationDiff, duration: 0.09)
+    
+    fileprivate lazy var downABit = SKAction.moveBy(x: 0, y: -self.upABitAnimationDiff, duration: 0.09)
+    fileprivate lazy var up = SKAction.moveBy(x: 0, y: self.btnUnPressAnimationDiff, duration: 0.1)
     
     
     var type: BtnType {
@@ -99,7 +108,7 @@ class BasicBtn: SKShapeNode, Btn {
         let width = frame.width
         let height: CGFloat = frame.height
         let bottom = SKShapeNode(rect: CGRect(x: frame.minX, y: frame.minY - Constant.Dimension.btnBottomHeight, width: width, height: height), cornerRadius: Constant.Dimension.btnBottomRadius)
-        bottom.fillColor = color.inner
+        bottom.fillColor = darkerColor
         bottom.lineWidth = 0
         bottom.zPosition = 0
         bottomPart = bottom
@@ -113,7 +122,16 @@ class BasicBtn: SKShapeNode, Btn {
         } else {
             unPress()
         }
+        playSound()
+        buttonPressVibration()
         delegate?.btnDidPress(self, levelPos: pos, isPressed: isPressed)
+    }
+    
+    fileprivate func buttonPressVibration() {
+        VibroManager.peek()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.14) {
+            VibroManager.peek()
+        }
     }
     
     func press(delay: Double = 0) {
@@ -127,7 +145,7 @@ class BasicBtn: SKShapeNode, Btn {
     func animatePress(duration: Double = 0.1, delay: Double = 0) {
         let wait = SKAction.wait(forDuration: delay)
         down.duration = duration
-        bgPart.run(SKAction.sequence([wait, down]))
+        bgPart.run(SKAction.sequence([wait, down, upABit]))
     }
     
     func unPress(delay: Double = 0) {
@@ -144,10 +162,15 @@ class BasicBtn: SKShapeNode, Btn {
         bgPart.run(SKAction.sequence([wait, up]))
     }
     
+    fileprivate func playSound() {
+        fxPlayer.start(name: "tap")
+    }
+    
     /// This func is called by other buttons. Place any code you want to run after adjecent button calls this func.
     func attemptToggle(delay: Double = 0.05) {
         //doing nothing in Basic button
     }
+    
     
 }
 
@@ -158,11 +181,10 @@ class StdBtn: BasicBtn {
     var innerSquare: SKShapeNode!
     var edgeFrame: SKShapeNode!
     
-    private let down = SKAction.moveBy(x: 0, y: -Constant.Dimension.btnUnPressAnimationDiff, duration: 0.1)
     private let unHide = SKAction.fadeIn(withDuration: 0.1)
-    private let up = SKAction.moveBy(x: 0, y: Constant.Dimension.btnUnPressAnimationDiff, duration: 0.1)
     private let hide = SKAction.fadeOut(withDuration: 0.1)
     
+    fileprivate let innerRadius = Constant.Dimension.btnInnerRadius
     
     override func setup(levelPos: GridPos, delay: Double = 0) {
         isUserInteractionEnabled = true
@@ -179,9 +201,9 @@ class StdBtn: BasicBtn {
     fileprivate func addEdgeFrame() {
         let thickness: CGFloat = Constant.Dimension.btnEdgeThinckness
         let size = frame.width - thickness
-        let square = SKShapeNode(rect: CGRect(x: frame.origin.x + (thickness / 2), y: frame.origin.y + (thickness / 2), width: size, height: size), cornerRadius: cornerRadius)
+        let square = SKShapeNode(rect: CGRect(x: frame.origin.x + (thickness / 2), y: frame.origin.y + (thickness / 2), width: size, height: size), cornerRadius: innerRadius)
         square.fillColor = color.main
-        square.strokeColor = color.inner
+        square.strokeColor = darkerColor
         square.lineWidth = 2
         edgeFrame = square
         edgeFrame.zPosition = 1
@@ -189,11 +211,13 @@ class StdBtn: BasicBtn {
     }
     
     fileprivate func addInnerSquare() {
-        let thickness: CGFloat = Constant.Dimension.btnEdgeThinckness
+        let thickness: CGFloat = Constant.Dimension.btnEdgeThinckness + 2
         let size = frame.width - thickness
-        let square = SKShapeNode(rect: CGRect(x: frame.origin.x + (thickness / 2), y: frame.origin.y + (thickness / 2), width: size, height: size), cornerRadius: cornerRadius)
+        let square = SKShapeNode(rect: CGRect(x: frame.origin.x + (thickness / 2), y: frame.origin.y + (thickness / 2), width: size, height: size), cornerRadius: innerRadius)
         square.fillColor = color.inner
-        square.lineWidth = 0
+        square.strokeColor = color.inner.withAlphaComponent(0.7)
+        square.lineWidth = 1
+        square.glowWidth = 7
         innerSquare = square
         innerSquare.zPosition = 1
         let hide = SKAction.fadeOut(withDuration: 0)
@@ -201,15 +225,16 @@ class StdBtn: BasicBtn {
         bgPart.addChild(innerSquare)
     }
     
-    
     override func animatePress(duration: Double = 0.1, delay: Double = 0) {
         let wait = SKAction.wait(forDuration: delay)
         down.duration = duration
         unHide.duration = duration
         hide.duration = duration
-        bgPart.run(SKAction.sequence([wait, down]))
+        let upABitWait = SKAction.wait(forDuration: 0.1)
+        bgPart.run(SKAction.sequence([wait, down, upABitWait, upABit]))
         innerSquare.run(SKAction.sequence([wait, unHide]))
-        edgeFrame.run(SKAction.sequence([wait, hide]))
+        
+//        edgeFrame.run(SKAction.sequence([wait, hide]))
     }
     
     override func animateUnPress(duration: Double = 0.1, delay: Double = 0) {
@@ -218,8 +243,10 @@ class StdBtn: BasicBtn {
         up.timingFunction = SpriteKitTimingFunctions.easeInQuad
         unHide.duration = duration
         innerSquare.run(SKAction.sequence([wait, hide]))
-        bgPart.run(SKAction.sequence([wait, up]))
-        edgeFrame.run(SKAction.sequence([wait, unHide]))
+        let downABitWait = SKAction.wait(forDuration: 0.1)
+        bgPart.run(SKAction.sequence([wait, downABit, downABitWait, up]))
+        
+//        edgeFrame.run(SKAction.sequence([wait, unHide]))
     }
     
     override func attemptToggle(delay: Double = 0.05) {
@@ -229,7 +256,6 @@ class StdBtn: BasicBtn {
             unPress(delay: delay)
         }
     }
-    
     
 }
 
@@ -294,12 +320,15 @@ class LockedBtn: OverlayBtn {
     }
     
     override var color: ButtonColor {
-        return .black
+        return .purp
     }
     
     override func setup(levelPos: GridPos, delay: Double = 0) {
         super.setup(levelPos: levelPos, delay: delay)
-        isUserInteractionEnabled = false
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
     }
 }
 

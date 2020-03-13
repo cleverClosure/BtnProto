@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double CollectionNodeVersionNumber;
-FOUNDATION_EXPORT const unsigned char CollectionNodeVersionString[];
+FOUNDATION_EXPORT double SAConfettiViewVersionNumber;
+FOUNDATION_EXPORT const unsigned char SAConfettiViewVersionString[];
 
